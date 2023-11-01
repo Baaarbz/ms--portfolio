@@ -6,13 +6,16 @@ create table companies
     name        varchar                  not null,
     url         varchar                  not null,
     current_job boolean                  not null,
-    start_date  timestamp with time zone not null,
-    end_date    timestamp with time zone,
+    start_month varchar                  not null,
+    start_year  varchar                  not null,
+    end_month   varchar,
+    end_year    varchar,
     updated_at  timestamp with time zone not null default now()
 );
 
 create trigger set_timestamp
-    before update on companies
+    before update
+    on companies
     for each row
 execute function trigger_set_timestamp();
 
