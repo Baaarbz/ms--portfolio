@@ -1,7 +1,7 @@
-create table companies
+create table jobs
 (
     id                  uuid                     not null
-        constraint companies_pk
+        constraint jobs_pk
             primary key,
     company_name        varchar                  not null,
     company_url         varchar                  not null,
@@ -16,8 +16,8 @@ create table companies
 
 create trigger set_timestamp
     before update
-    on companies
+    on jobs
     for each row
 execute function trigger_set_timestamp();
 
-comment on table companies is 'This table will contain all the companies I have been working in a defined time';
+comment on table jobs is 'This table will contain all the companies I have been working in a defined time';
