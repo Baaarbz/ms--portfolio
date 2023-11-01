@@ -1,3 +1,8 @@
 server:
   port: 8000
 
+dev:
+  eduardobarbosa:
+    auth:
+      usr: local
+      pwd: local
