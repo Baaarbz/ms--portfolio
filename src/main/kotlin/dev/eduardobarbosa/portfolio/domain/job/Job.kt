@@ -16,6 +16,7 @@ data class Job(
     val companyEndYear: Year?,
     val jobData: JobData,
 ) {
+    fun joinStartDateAsNumber() = companyStartYear.value.toInt() * 100 + companyStartMonth.value.toInt()
 
     data class Id(val value: String) {
         init {

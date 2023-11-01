@@ -52,14 +52,14 @@ data class HttpGetJobsResponse(
 
 data class JobDataResponse(
     @JsonProperty("positions") val positions: List<PositionResponse>,
-)
-
-data class PositionResponse(
-    @JsonProperty("position") val position: String,
-    @JsonProperty("description") val description: String,
-    @JsonProperty("isCurrentPosition") val isCurrentPosition: Boolean,
-    @JsonProperty("positionStartMonth") val positionStartMonth: String,
-    @JsonProperty("positionStartYear") val positionStartYear: String,
-    @JsonProperty("positionEndMonth") val positionEndMonth: String?,
-    @JsonProperty("positionEndYear") val positionEndYear: String?,
-)
+) {
+    data class PositionResponse(
+        @JsonProperty("position") val position: String,
+        @JsonProperty("description") val description: String,
+        @JsonProperty("isCurrentPosition") val isCurrentPosition: Boolean,
+        @JsonProperty("positionStartMonth") val positionStartMonth: String,
+        @JsonProperty("positionStartYear") val positionStartYear: String,
+        @JsonProperty("positionEndMonth") val positionEndMonth: String?,
+        @JsonProperty("positionEndYear") val positionEndYear: String?,
+    )
+}
