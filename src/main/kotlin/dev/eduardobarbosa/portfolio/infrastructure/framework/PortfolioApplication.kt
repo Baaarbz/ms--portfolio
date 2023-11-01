@@ -1,4 +1,4 @@
-package dev.eduardobarbosa.portfolio
+package dev.eduardobarbosa.portfolio.infrastructure.framework
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

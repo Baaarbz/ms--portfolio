@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/portfolio
+    username: local
+    password: local
+    driver-class-name: org.postgresql.Driver
+
+logging:
+  level:
+    dev.eduardobarbosa: DEBUG

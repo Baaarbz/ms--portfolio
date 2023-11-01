@@ -1,5 +1,6 @@
 package dev.eduardobarbosa.portfolio
 
+import dev.eduardobarbosa.portfolio.infrastructure.framework.PortfolioApplication
 import org.springframework.boot.fromApplication
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection
