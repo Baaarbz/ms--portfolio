@@ -12,41 +12,57 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
+
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfiguration(
-    @Value("\${dev.eduardobarbosa.auth.usr}") private val username: String,
-    @Value("\${dev.eduardobarbosa.auth.pwd}") private val password: String,
+        @Value("\${dev.eduardobarbosa.auth.usr}") private val username: String,
+        @Value("\${dev.eduardobarbosa.auth.pwd}") private val password: String,
 ) {
 
     @Bean
     @Throws(Exception::class)
     fun configureSecurityFilterChain(httpSecurity: HttpSecurity): SecurityFilterChain =
-        httpSecurity
-            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
-            .csrf { it.disable() }
-            .authorizeHttpRequests {
-                it.requestMatchers(
-                    HttpMethod.GET, "/api/v1/jobs"
-                ).permitAll()
-                it.requestMatchers(
-                    EndpointRequest.to(HealthEndpoint::class.java),
-                    EndpointRequest.to(InfoEndpoint::class.java)
-                ).permitAll()
-                it.anyRequest().authenticated()
-            }
-            .httpBasic {}
-            .build()
+            httpSecurity
+                    .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
+                    .csrf { it.disable() }
+                    .authorizeHttpRequests {
+                        it
+                                .requestMatchers(
+                                        HttpMethod.GET, "/api/v1/jobs"
+                                )
+                                .permitAll()
+                                .requestMatchers(
+                                        "/swagger-ui.html",
+                                        "/swagger-resources/**",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**",
+                                )
+                                .permitAll()
+                                .requestMatchers(
+                                        EndpointRequest.to(HealthEndpoint::class.java),
+                                        EndpointRequest.to(InfoEndpoint::class.java)
+                                )
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated()
+                    }
+                    .httpBasic {}
+                    .build()
 
     @Bean
     fun configureUserDetailsService(): UserDetailsService =
-        InMemoryUserDetailsManager(
-            User
-                .withUsername(username)
-                .password(password)
-                .build()
-        )
+            InMemoryUserDetailsManager(
+                    User
+                            .withUsername(username)
+                            .password(passwordEncoder().encode(password))
+                            .build()
+            )
+
+    @Bean
+    fun passwordEncoder(): BCryptPasswordEncoder = BCryptPasswordEncoder()
 }

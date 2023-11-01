@@ -1,4 +1,4 @@
-name: Build and Test
+name: CD/CI
 
 on:
   push:
@@ -75,3 +75,12 @@ jobs:
 
       - name: Run acceptance test
         run: ./gradlew clean acceptanceTest --stacktrace --no-configuration-cache
+
+  deploy-dev:
+    name: Deploy in DEV 🚀
+    runs-on: ubuntu-latest
+    needs:
+      - unit-test
+      - integration-test
+      - acceptance-test
+        #WIP
