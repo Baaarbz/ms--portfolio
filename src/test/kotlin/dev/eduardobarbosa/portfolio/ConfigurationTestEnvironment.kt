@@ -1,10 +1,12 @@
 package dev.eduardobarbosa.portfolio
 
 import dev.eduardobarbosa.portfolio.infrastructure.framework.PortfolioApplication
+import io.mockk.junit5.MockKExtension
 import java.io.File
 import org.flywaydb.core.Flyway
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
@@ -50,6 +52,7 @@ sealed class ConfigurationTestEnvironment {
 }
 
 @Tag("UnitTest")
+@ExtendWith(MockKExtension::class)
 abstract class UnitTest
 
 @Tag("AcceptanceTest")
