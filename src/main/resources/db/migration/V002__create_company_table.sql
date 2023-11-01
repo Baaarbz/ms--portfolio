@@ -1,16 +1,17 @@
 create table companies
 (
-    id          uuid                     not null
+    id                  uuid                     not null
         constraint companies_pk
             primary key,
-    name        varchar                  not null,
-    url         varchar                  not null,
-    current_job boolean                  not null,
-    start_month varchar                  not null,
-    start_year  varchar                  not null,
-    end_month   varchar,
-    end_year    varchar,
-    updated_at  timestamp with time zone not null default now()
+    company_name        varchar                  not null,
+    company_url         varchar                  not null,
+    current_job         boolean                  not null,
+    company_start_month varchar                  not null,
+    company_start_year  varchar                  not null,
+    company_end_month   varchar,
+    company_end_year    varchar,
+    jobData             jsonb                    not null,
+    updated_at          timestamp with time zone not null default now()
 );
 
 create trigger set_timestamp
