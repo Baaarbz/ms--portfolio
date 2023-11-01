@@ -16,21 +16,27 @@ class JDBCJobRepository(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    private val jobDTORowMapper: RowMapper<JobDTO> = RowMapper { rs, _ ->
+    private val rowMapper: RowMapper<JobDTO> = RowMapper { rs, _ ->
         JobDTO(
             id = rs.getString("id"),
             companyName = rs.getString("company_name"),
-            companyURL = rs.getString("current_job"),
-            isCurrentCompany = rs.getBoolean("company_url"),
+            companyURL = rs.getString("company_url"),
+            isCurrentCompany = rs.getBoolean("current_job"),
             companyStartMonth = rs.getString("company_start_month"),
             companyStartYear = rs.getString("company_start_year"),
             companyEndMonth = rs.getString("company_end_month"),
             companyEndYear = rs.getString("company_end_year"),
-            jobData = gson.fromJson(rs.getString("expense_group_data"), JobDataDTO::class.java),
+            jobData = gson.fromJson(rs.getString("jobData"), JobDataDTO::class.java),
         )
     }
 
     override fun findAll(): List<JobDTO> {
-        TODO("Not yet implemented")
+        val sql = "SELECT * FROM jobs"
+        logger.debug(sql)
+
+        return jdbcTemplate.query(
+            sql,
+            rowMapper
+        )
     }
 }
