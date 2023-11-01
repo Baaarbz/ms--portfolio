@@ -1,6 +1,7 @@
 package dev.eduardobarbosa.portfolio.infrastructure.framework.controller
 
 import com.fasterxml.jackson.annotation.JsonProperty
+import dev.eduardobarbosa.portfolio.application.GetAllJobsService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/jobs")
-class JobController {
+class JobController(
+    private val getAllJobsService: GetAllJobsService
+) {
 
     @GetMapping
     fun getJobs(): ResponseEntity<List<HttpGetJobsResponse>> {
-        return ResponseEntity.ok().build()
+        return ResponseEntity.ok(getAllJobsService.execute())
     }
 
     @PostMapping
