@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/api/v1/jobs")
-class JobsController {
+class JobController {
 
     @GetMapping
     fun getJobs(): ResponseEntity<List<HttpGetJobsResponse>> {
@@ -31,21 +31,15 @@ class JobsController {
         return ResponseEntity.internalServerError().build()
     }
 
-    @DeleteMapping("{companyId}")
-    fun deleteJob(@PathVariable companyId: String): ResponseEntity<List<HttpGetJobsResponse>> {
-        //TODO not implemented yet
-        return ResponseEntity.internalServerError().build()
-    }
-
-    @DeleteMapping("/position/{positionId}")
-    fun deleteJobPosition(@PathVariable positionId: String): ResponseEntity<List<HttpGetJobsResponse>> {
+    @DeleteMapping("{id}")
+    fun deleteJob(@PathVariable id: String): ResponseEntity<List<HttpGetJobsResponse>> {
         //TODO not implemented yet
         return ResponseEntity.internalServerError().build()
     }
 }
 
 data class HttpGetJobsResponse(
-    @JsonProperty("companyId") val companyId: String,
+    @JsonProperty("id") val id: String,
     @JsonProperty("companyName") val companyName: String,
     @JsonProperty("companyURL") val companyURL: String,
     @JsonProperty("isCurrentCompany") val isCurrentCompany: Boolean,
@@ -53,11 +47,14 @@ data class HttpGetJobsResponse(
     @JsonProperty("companyStartYear") val companyStartYear: String,
     @JsonProperty("companyEndMonth") val companyEndMonth: String?,
     @JsonProperty("companyEndYear") val companyEndYear: String?,
-    @JsonProperty("companyPositions") val companyPositions: List<CompanyPositionResponse>
+    @JsonProperty("jobData") val jobData: JobDataResponse,
 )
 
-data class CompanyPositionResponse(
-    @JsonProperty("positionId") val positionId: String,
+data class JobDataResponse(
+    @JsonProperty("positions") val positions: List<PositionResponse>,
+)
+
+data class PositionResponse(
     @JsonProperty("position") val position: String,
     @JsonProperty("description") val description: String,
     @JsonProperty("isCurrentPosition") val isCurrentPosition: Boolean,
