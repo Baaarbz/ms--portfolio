@@ -11,58 +11,58 @@ import org.springframework.http.HttpStatus
 
 class JobControllerShould : AcceptanceTest() {
 
-    @Test
-    fun `return jobs ordered by dates given get request without auth`() {
-        val responseJobs = RestAssured.given()
-            .port(port.toInt())
-            .contentType(ContentType.JSON)
-            .`when`()
-            .get("/api/v1/jobs")
-            .then()
-            .assertThat()
-            .statusCode(HttpStatus.OK.value())
-            .extract()
-            .body()
-            .asString()
+  @Test
+  fun `return jobs ordered by dates given get request without auth`() {
+    val responseJobs = RestAssured.given()
+      .port(port.toInt())
+      .contentType(ContentType.JSON)
+      .`when`()
+      .get("/api/v1/jobs")
+      .then()
+      .assertThat()
+      .statusCode(HttpStatus.OK.value())
+      .extract()
+      .body()
+      .asString()
 
-        JSONAssert.assertEquals(GET_JOBS_RESPONSE, responseJobs, JSONCompareMode.NON_EXTENSIBLE)
-    }
+    JSONAssert.assertEquals(GET_JOBS_RESPONSE, responseJobs, JSONCompareMode.NON_EXTENSIBLE)
+  }
 
-    @Test
-    fun `return unauthorized response given create job request without auth`() {
-        RestAssured.given()
-            .port(port.toInt())
-            .contentType(ContentType.JSON)
-            .`when`()
-            .post("/api/v1/jobs")
-            .then()
-            .assertThat()
-            .statusCode(HttpStatus.UNAUTHORIZED.value())
-    }
+  @Test
+  fun `return unauthorized response given create job request without auth`() {
+    RestAssured.given()
+      .port(port.toInt())
+      .contentType(ContentType.JSON)
+      .`when`()
+      .post("/api/v1/jobs")
+      .then()
+      .assertThat()
+      .statusCode(HttpStatus.UNAUTHORIZED.value())
+  }
 
-    @Test
-    fun `return unauthorized response given update job request without auth`() {
-        RestAssured.given()
-            .port(port.toInt())
-            .contentType(ContentType.JSON)
-            .`when`()
-            .put("/api/v1/jobs/7cd9a4dc-ff61-48da-af2c-c839d6572b3a")
-            .then()
-            .assertThat()
-            .statusCode(HttpStatus.UNAUTHORIZED.value())
-    }
+  @Test
+  fun `return unauthorized response given update job request without auth`() {
+    RestAssured.given()
+      .port(port.toInt())
+      .contentType(ContentType.JSON)
+      .`when`()
+      .put("/api/v1/jobs/7cd9a4dc-ff61-48da-af2c-c839d6572b3a")
+      .then()
+      .assertThat()
+      .statusCode(HttpStatus.UNAUTHORIZED.value())
+  }
 
-    @Test
-    fun `return unauthorized response given delete job request without auth`() {
-        RestAssured.given()
-            .port(port.toInt())
-            .contentType(ContentType.JSON)
-            .`when`()
-            .delete("/api/v1/jobs/7cd9a4dc-ff61-48da-af2c-c839d6572b3a")
-            .then()
-            .assertThat()
-            .statusCode(HttpStatus.UNAUTHORIZED.value())
-    }
+  @Test
+  fun `return unauthorized response given delete job request without auth`() {
+    RestAssured.given()
+      .port(port.toInt())
+      .contentType(ContentType.JSON)
+      .`when`()
+      .delete("/api/v1/jobs/7cd9a4dc-ff61-48da-af2c-c839d6572b3a")
+      .then()
+      .assertThat()
+      .statusCode(HttpStatus.UNAUTHORIZED.value())
+  }
 }
 
 @Language("JSON")
