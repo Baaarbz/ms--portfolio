@@ -37,7 +37,7 @@ class SecurityConfiguration(
           )
           .permitAll()
           .requestMatchers(
-            HttpMethod.GET, "/api/v1/about"
+            HttpMethod.GET, "/api/v1/abouts"
           )
           .permitAll()
           .requestMatchers(
