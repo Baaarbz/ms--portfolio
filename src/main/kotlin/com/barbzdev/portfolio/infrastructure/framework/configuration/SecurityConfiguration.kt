@@ -20,8 +20,8 @@ import org.springframework.security.web.SecurityFilterChain
 @Configuration
 @EnableWebSecurity
 class SecurityConfiguration(
-        @Value("\${dev.eduardobarbosa.auth.usr}") private val username: String,
-        @Value("\${dev.eduardobarbosa.auth.pwd}") private val password: String,
+        @Value("\${com.barbzdev.auth.usr}") private val username: String,
+        @Value("\${com.barbzdev.auth.pwd}") private val password: String,
 ) {
 
     @Bean

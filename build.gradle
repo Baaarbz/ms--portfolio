@@ -10,7 +10,7 @@ plugins {
 apply plugin: 'java-library'
 apply plugin: 'java-test-fixtures'
 
-group = 'dev.eduardobarbosa'
+group = 'com.barbzdev'
 version = '0.0.1-SNAPSHOT'
 
 java {

@@ -7,10 +7,10 @@ spring:
 
 logging:
   level:
-    dev.eduardobarbosa: DEBUG
+    com.barbzdev: DEBUG
 
-dev:
-  eduardobarbosa:
+com:
+  barbzdev:
     auth:
       usr: local
       pwd: local
