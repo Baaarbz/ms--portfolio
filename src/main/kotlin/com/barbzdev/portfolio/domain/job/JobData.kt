@@ -2,7 +2,7 @@ package com.barbzdev.portfolio.domain.job
 
 import com.barbzdev.portfolio.domain.common.Month
 import com.barbzdev.portfolio.domain.common.Year
-import com.barbzdev.portfolio.domain.job.exception.InvalidDatesException
+import com.barbzdev.portfolio.domain.job.exception.InvalidJobDatesException
 
 data class JobData(
   val positions: List<Position>,
@@ -18,13 +18,13 @@ data class JobData(
   ) {
     init {
       if (joinEndDateAsNumber() != 0 && joinEndDateAsNumber() > joinStartDateAsNumber()) {
-        throw InvalidDatesException("position end date can not be after position start date")
+        throw InvalidJobDatesException("position end date can not be after position start date")
       }
       if (isCurrentPosition && joinEndDateAsNumber() > 0) {
-        throw InvalidDatesException("if is current position can not have end date")
+        throw InvalidJobDatesException("if is current position can not have end date")
       }
       if (!isCurrentPosition && joinEndDateAsNumber() == 0) {
-        throw InvalidDatesException("if is not current position must have defined an end date")
+        throw InvalidJobDatesException("if is not current position must have defined an end date")
       }
     }
 
