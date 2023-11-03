@@ -116,3 +116,29 @@ private const val GET_JOBS_RESPONSE = """
    }
 ]
   """
+
+@Language("JSON")
+private const val CREATE_JOB_RESPONSE = """
+ {
+    "companyName":"Banco Santander",
+    "companyURL":"https://bancosantander.es/",
+    "isCurrentCompany":false,
+    "companyStartMonth":"10",
+    "companyStartYear":"2022",
+    "companyEndMonth":"03",
+    "companyEndYear":"2021",
+    "jobData":{
+       "positions":[
+          {
+             "position":"Backend Engineer",
+             "description":"Collaborate developing different solutions in different marketplaces like: Milanuncios, Leboncoin, Kleinanzeigen, mobile.de... using Kotlin, Go and Java (17). Use different technologies as Kafka, AWS, Datadog (metrics, alerts, monitoring), Optimizely (for feature flagging, test A/B), Segment (to monitor user behaviors), Docker and Kubernetes. I am used to give light talks to share knowledge to other mates about new tech, or solutions adopted in our team. Design patterns like DDD, Hexagonal architecture, good practices as TDD, SOLID, pair programming, and very used to work using async flows. Create documentation",
+             "isCurrentPosition":true,
+             "positionStartMonth":"10",
+             "positionStartYear":"2022",
+             "positionEndMonth":null,
+             "positionEndYear":null
+          }
+       ]
+    }
+ }
+  """
