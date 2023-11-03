@@ -51,4 +51,8 @@ class JDBCJobRepository(
       rowMapper
     )
   }
+
+  override fun save(job: Job) {
+    TODO("Not yet implemented")
+  }
 }
