@@ -26,14 +26,14 @@ class GetAllJobsServiceShould : UnitTest() {
 
     val response = service.execute()
 
-    assertEquals(aJob.id, response[0].id)
-    assertEquals(aJob.companyName, response[0].companyName)
-    assertEquals(aJob.companyURL, response[0].companyURL)
-    assertEquals(aJob.companyStartMonth, response[0].companyStartMonth)
-    assertEquals(aJob.companyStartYear, response[0].companyStartYear)
-    assertEquals(aJob.companyEndMonth, response[0].companyEndMonth)
-    assertEquals(aJob.companyEndYear, response[0].companyEndYear)
-    assertEquals(aJob.jobData.positions[0].position, response[0].jobData.positions[0].position)
+    assertEquals(aJob.id.value, response[0].id)
+    assertEquals(aJob.companyName.value, response[0].companyName)
+    assertEquals(aJob.companyURL.value, response[0].companyURL)
+    assertEquals(aJob.companyStartMonth.value, response[0].companyStartMonth)
+    assertEquals(aJob.companyStartYear.value, response[0].companyStartYear)
+    assertEquals(aJob.companyEndMonth?.value, response[0].companyEndMonth)
+    assertEquals(aJob.companyEndYear?.value, response[0].companyEndYear)
+    assertEquals(aJob.jobData.positions[0].position.value, response[0].jobData.positions[0].position)
   }
 
   @Test
