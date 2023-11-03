@@ -40,4 +40,15 @@ class JDBCJobRepository(
       rowMapper
     )
   }
+
+  override fun findBy(id: Job.Id): Job? {
+    val sql = "SELECT * FROM jobs WHERE id = :id"
+    logger.debug(sql)
+
+    return jdbcTemplate.queryForObject(
+      sql,
+      mapOf("id" to id.value),
+      rowMapper
+    )
+  }
 }
