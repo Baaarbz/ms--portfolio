@@ -1,9 +1,10 @@
 package com.barbzdev.portfolio.infrastructure.framework.repository.job
 
+import com.barbzdev.portfolio.domain.common.Month
+import com.barbzdev.portfolio.domain.common.Year
+import com.barbzdev.portfolio.domain.job.Job
 import com.barbzdev.portfolio.domain.job.JobRepository
 import com.barbzdev.portfolio.infrastructure.framework.repository.CommonRepositoryUtil.Companion.gson
-import com.barbzdev.portfolio.infrastructure.framework.repository.job.dto.JobDTO
-import com.barbzdev.portfolio.infrastructure.framework.repository.job.dto.JobDataDTO
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
@@ -11,32 +12,32 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class JDBCJobRepository(
-        private val jdbcTemplate: NamedParameterJdbcTemplate,
+  private val jdbcTemplate: NamedParameterJdbcTemplate,
 ) : JobRepository {
 
-    private val logger = LoggerFactory.getLogger(this::class.java)
+  private val logger = LoggerFactory.getLogger(this::class.java)
 
-    private val rowMapper: RowMapper<JobDTO> = RowMapper { rs, _ ->
-        JobDTO(
-                id = rs.getString("id"),
-                companyName = rs.getString("company_name"),
-                companyURL = rs.getString("company_url"),
-                isCurrentCompany = rs.getBoolean("current_job"),
-                companyStartMonth = rs.getString("company_start_month"),
-                companyStartYear = rs.getString("company_start_year"),
-                companyEndMonth = rs.getString("company_end_month"),
-                companyEndYear = rs.getString("company_end_year"),
-                jobData = gson.fromJson(rs.getString("jobData"), JobDataDTO::class.java),
-        )
-    }
+  private val rowMapper: RowMapper<Job> = RowMapper { rs, _ ->
+    Job(
+      id = Job.Id(rs.getString("id")),
+      companyName = Job.CompanyName(rs.getString("company_name")),
+      companyURL = Job.CompanyURL(rs.getString("company_url")),
+      isCurrentCompany = rs.getBoolean("current_job"),
+      companyStartMonth = Month(rs.getString("company_start_month")),
+      companyStartYear = Year(rs.getString("company_start_year")),
+      companyEndMonth = rs.getString("company_end_month")?.let { Month(it) },
+      companyEndYear = rs.getString("company_end_year")?.let { Year(it) },
+      jobData = gson.fromJson(rs.getString("jobData"), JsonJobData::class.java).toDomain(),
+    )
+  }
 
-    override fun findAll(): List<JobDTO> {
-        val sql = "SELECT * FROM jobs"
-        logger.debug(sql)
+  override fun findAll(): List<Job> {
+    val sql = "SELECT * FROM jobs"
+    logger.debug(sql)
 
-        return jdbcTemplate.query(
-                sql,
-                rowMapper
-        )
-    }
+    return jdbcTemplate.query(
+      sql,
+      rowMapper
+    )
+  }
 }

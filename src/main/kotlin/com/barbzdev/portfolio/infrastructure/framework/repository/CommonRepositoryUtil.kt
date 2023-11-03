@@ -4,9 +4,9 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 
 class CommonRepositoryUtil {
-    companion object {
-        val gson: Gson = GsonBuilder()
-                .serializeNulls()
-                .create()
-    }
+  companion object {
+    val gson: Gson = GsonBuilder()
+      .serializeNulls()
+      .create()
+  }
 }

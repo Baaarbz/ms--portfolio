@@ -18,37 +18,37 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 @ActiveProfiles("test")
 @SpringBootTest(
-        classes = [PortfolioApplication::class],
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
+  classes = [PortfolioApplication::class],
+  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
 sealed class ConfigurationTestEnvironment {
 
-    @LocalServerPort
-    lateinit var port: String
+  @LocalServerPort
+  lateinit var port: String
 
-    @Autowired
-    private lateinit var flyway: Flyway
+  @Autowired
+  private lateinit var flyway: Flyway
 
-    @BeforeEach
-    fun setUp() {
-        flyway.clean()
-        flyway.migrate()
+  @BeforeEach
+  fun setUp() {
+    flyway.clean()
+    flyway.migrate()
+  }
+
+  companion object {
+    private const val DOCKER_COMPOSE_PATH = "compose.yaml"
+    private val dockerComposeContainer: DockerComposeContainer<*> by lazy {
+      DockerComposeContainer<Nothing>(File(DOCKER_COMPOSE_PATH))
     }
 
-    companion object {
-        private const val DOCKER_COMPOSE_PATH = "compose.yaml"
-        private val dockerComposeContainer: DockerComposeContainer<*> by lazy {
-            DockerComposeContainer<Nothing>(File(DOCKER_COMPOSE_PATH))
-        }
-
-        init {
-            dockerComposeContainer.start()
-            dockerComposeContainer
-                    .withLocalCompose(true)
-                    .waitingFor("postgres", Wait.forListeningPort())
-            Runtime.getRuntime().addShutdownHook(Thread { dockerComposeContainer.stop() })
-        }
+    init {
+      dockerComposeContainer.start()
+      dockerComposeContainer
+        .withLocalCompose(true)
+        .waitingFor("postgres", Wait.forListeningPort())
+      Runtime.getRuntime().addShutdownHook(Thread { dockerComposeContainer.stop() })
     }
+  }
 }
 
 @Tag("UnitTest")

@@ -7,6 +7,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class ServiceConfiguration {
 
-    @Bean
-    fun getAllJobsService(jobs: JobRepository) = com.barbzdev.portfolio.application.GetAllJobsService(jobs)
+  @Bean
+  fun getAllJobsService(jobs: JobRepository) = com.barbzdev.portfolio.application.GetAllJobsService(jobs)
 }
