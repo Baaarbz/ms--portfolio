@@ -28,6 +28,15 @@ data class Job(
     if (!isCurrentCompany && joinEndDateAsNumber() == 0) {
       throw InvalidDatesException("if is not current job must have defined an end date")
     }
+
+    jobData.positions.forEach { position ->
+      if (position.joinEndDateAsNumber() > joinEndDateAsNumber()) {
+        throw InvalidDatesException("a position can not have and end date later than the job")
+      }
+      if (joinStartDateAsNumber() > position.joinStartDateAsNumber()) {
+        throw InvalidDatesException("a position can not have and start earlier than the job")
+      }
+    }
   }
 
   fun joinStartDateAsNumber() = companyStartYear.value.toInt() * 100 + companyStartMonth.value.toInt()
