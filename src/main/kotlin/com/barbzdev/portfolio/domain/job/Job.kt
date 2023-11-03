@@ -3,6 +3,7 @@ package com.barbzdev.portfolio.domain.job
 import com.barbzdev.portfolio.domain.common.Month
 import com.barbzdev.portfolio.domain.common.Year
 import com.barbzdev.portfolio.domain.job.exception.InvalidDatesException
+import com.barbzdev.portfolio.domain.job.exception.InvalidJobDataException
 import java.net.URI
 import java.util.UUID
 
@@ -35,6 +36,9 @@ data class Job(
       }
       if (joinStartDateAsNumber() > position.joinStartDateAsNumber()) {
         throw InvalidDatesException("a position can not have and start earlier than the job")
+      }
+      if (!isCurrentCompany && position.isCurrentPosition) {
+        throw InvalidJobDataException("if is not current company then any position can be current position")
       }
     }
   }
