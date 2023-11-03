@@ -7,8 +7,8 @@ spring:
   flyway:
     clean-disabled: false
 
-dev:
-  eduardobarbosa:
+com:
+  barbzdev:
     auth:
       usr: test
       pwd: 1234
