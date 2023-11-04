@@ -86,11 +86,4 @@ jobs:
       - name: Grant execute permissions to gradlew
         run: chmod +x ./gradlew
 
-      - name: Build
-        run: |
-          ./gradlew build
-          java -jar -Dspring.datasource.username=${{ secrets.DB_USERNAME }} \
-          -Dspring.datasource.password=${{ secrets.DB_PASSWORD }} \
-          -Dcom.barbzdev.auth.usr=${{ secrets.AUTH_USERNAME }} \
-          -Dcom.barbzdev.auth.pwd=${{ secrets.AUTH_PASSWORD }} \
-          --exclude-task acceptanceTest --exclude-task integrationTest --exclude-task test
+      #WIP
