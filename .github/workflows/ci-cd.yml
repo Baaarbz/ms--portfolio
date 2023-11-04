@@ -105,4 +105,4 @@ jobs:
           -Dspring.datasource.password=${{ secrets.DB_PASSWORD }} \
           -Dcom.barbzdev.auth.usr=${{ secrets.AUTH_USERNAME }} \
           -Dcom.barbzdev.auth.pwd=${{ secrets.AUTH_PASSWORD }} \
-          -exclude-task acceptanceTest --exclude-task integrationTest --exclude-task test
+          --exclude-task acceptanceTest --exclude-task integrationTest --exclude-task test
