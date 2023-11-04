@@ -7,7 +7,8 @@ spring:
 
 logging:
   level:
-    com.barbzdev: DEBUG
+    com.barbzdev: debug
+    web: debug
 
 com:
   barbzdev:

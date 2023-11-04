@@ -1,6 +1,7 @@
 package com.barbzdev.portfolio.infrastructure.repository
 
 import com.barbzdev.portfolio.IntegrationTest
+import com.barbzdev.portfolio.JobFactory
 import com.barbzdev.portfolio.domain.job.JobRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -20,5 +21,15 @@ class JDBCJobRepositoryShould : IntegrationTest() {
     assertEquals("86c144f4-0e1d-408b-b274-106ef8939b4b", jobsFound[1].id.value)
     assertEquals(1, jobsFound[0].jobData.positions.size)
     assertEquals(1, jobsFound[1].jobData.positions.size)
+  }
+
+  @Test
+  fun `save new job in db`() {
+    val aJob = JobFactory.aJob()
+
+    jobs.save(aJob)
+
+    val savedJob = jobs.findBy(aJob.id)!!
+    assertEquals(aJob, savedJob)
   }
 }

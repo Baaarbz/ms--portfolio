@@ -47,12 +47,28 @@ class JDBCJobRepository(
 
     return jdbcTemplate.queryForObject(
       sql,
-      mapOf("id" to id.value),
+      mapOf("id" to id.uuid()),
       rowMapper
     )
   }
 
   override fun save(job: Job) {
-    TODO("Not yet implemented")
+    val sql =
+      "INSERT INTO jobs (id, company_name, company_url, jobData, current_job, company_start_month, company_start_year, company_end_month, company_end_year) VALUES (:id, :companyName, :companyURL, CAST(:jobData AS JSONB), :isCurrentCompany, :companyStartMonth, :companyStartYear, :companyEndMonth, :companyEndYear);"
+    logger.debug(sql)
+    jdbcTemplate.update(
+      sql,
+      mapOf(
+        "id" to job.id.uuid(),
+        "companyName" to job.companyName.value,
+        "companyURL" to job.companyURL.value,
+        "jobData" to gson.toJson(job.jobData.toJson()),
+        "isCurrentCompany" to job.isCurrentCompany,
+        "companyStartMonth" to job.companyStartMonth.value,
+        "companyStartYear" to job.companyStartYear.value,
+        "companyEndMonth" to job.companyEndMonth?.value,
+        "companyEndYear" to job.companyEndYear?.value
+      )
+    )
   }
 }
