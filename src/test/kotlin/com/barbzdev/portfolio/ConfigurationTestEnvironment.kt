@@ -36,7 +36,7 @@ sealed class ConfigurationTestEnvironment {
   }
 
   companion object {
-    private const val DOCKER_COMPOSE_PATH = "compose.yaml"
+    private const val DOCKER_COMPOSE_PATH = "docker-compose.yml"
     private val dockerComposeContainer: DockerComposeContainer<*> by lazy {
       DockerComposeContainer<Nothing>(File(DOCKER_COMPOSE_PATH))
     }
