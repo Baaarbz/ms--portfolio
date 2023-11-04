@@ -75,3 +75,34 @@ jobs:
 
       - name: Run acceptance test
         run: ./gradlew clean acceptanceTest --stacktrace --no-configuration-cache
+  build:
+    name: Acceptance test
+    runs-on: ubuntu-latest
+    needs:
+      - acceptance-test
+      - integration-test
+      - unit-test
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'adopt'
+
+      - name: Grant execute permissions to gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: |
+          ./gradlew build
+          java -jar -Dspring.datasource.username=${{ secrets.DB_USERNAME }} \
+          -Dspring.datasource.password=${{ secrets.DB_PASSWORD }} \
+          -Dcom.barbzdev.auth.usr=${{ secrets.AUTH_USERNAME }} \
+          -Dcom.barbzdev.auth.pwd=${{ secrets.AUTH_PASSWORD }} \
+          -exclude-task acceptanceTest --exclude-task integrationTest --exclude-task test
