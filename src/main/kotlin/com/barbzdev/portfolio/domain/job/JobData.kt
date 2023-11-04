@@ -17,7 +17,7 @@ data class JobData(
     val positionEndYear: Year?,
   ) {
     init {
-      if (joinEndDateAsNumber() != 0 && joinEndDateAsNumber() > joinStartDateAsNumber()) {
+      if (joinEndDateAsNumber() != 0 && joinEndDateAsNumber() < joinStartDateAsNumber()) {
         throw InvalidJobDatesException("position end date can not be after position start date")
       }
       if (isCurrentPosition && joinEndDateAsNumber() > 0) {
