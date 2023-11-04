@@ -29,3 +29,17 @@ private fun JsonJobData.Position.toDomain() = JobData.Position(
   positionEndMonth = this.positionEndMonth?.let { Month(it) },
   positionEndYear = this.positionEndYear?.let { Year(it) },
 )
+
+fun JobData.toJson() = JsonJobData(
+  positions = this.positions.map { it.toJson() }
+)
+
+private fun JobData.Position.toJson() = JsonJobData.Position(
+  position = this.position.value,
+  description = this.description.value,
+  isCurrentPosition = this.isCurrentPosition,
+  positionStartMonth = this.positionStartMonth.value,
+  positionStartYear = this.positionStartYear.value,
+  positionEndMonth = this.positionEndMonth?.value,
+  positionEndYear = this.positionEndYear?.value,
+)

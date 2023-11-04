@@ -55,6 +55,8 @@ data class Job(
     init {
       UUID.fromString(value)
     }
+
+    fun uuid(): UUID = UUID.fromString(value)
   }
 
   data class CompanyName(val value: String) {
