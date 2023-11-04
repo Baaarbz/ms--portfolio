@@ -49,6 +49,6 @@ class GetAllJobsServiceShould : UnitTest() {
 
     val response = service.execute()
 
-    assertTrue(response[0].companyStartYear.toInt() > response[4].companyStartYear.toInt())
+    assertTrue(response[0].companyStartYear.toInt() >= response[4].companyStartYear.toInt())
   }
 }

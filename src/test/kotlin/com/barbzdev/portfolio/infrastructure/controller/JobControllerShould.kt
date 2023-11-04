@@ -20,10 +20,10 @@ import org.springframework.http.HttpStatus
 
 class JobControllerShould : AcceptanceTest() {
 
-  @Value("\${com.barbzdev.auth.usr")
+  @Value("\${com.barbzdev.auth.usr}")
   lateinit var user: String
 
-  @Value("\${com.barbzdev.auth.pwd")
+  @Value("\${com.barbzdev.auth.pwd}")
   lateinit var password: String
 
   @Autowired
