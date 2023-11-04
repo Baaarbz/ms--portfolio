@@ -20,7 +20,7 @@ data class Job(
 ) {
 
   init {
-    if (joinEndDateAsNumber() != 0 && joinEndDateAsNumber() > joinStartDateAsNumber()) {
+    if (joinEndDateAsNumber() != 0 && joinEndDateAsNumber() < joinStartDateAsNumber()) {
       throw InvalidJobDatesException("job end date can not be after job start date")
     }
     if (isCurrentCompany && joinEndDateAsNumber() > 0) {
