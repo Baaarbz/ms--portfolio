@@ -132,4 +132,4 @@ jobs:
             docker stop portfolio-api
             docker rmi baaarbz/portfolio-api
             docker pull baaarbz/portfolio-api:latest
-            docker run -d --rm -p 8000:8000 -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -e AUTH_USR=${{ secrets.AUTH_USERNAME }} -e AUTH_PWD=${{ secrets.AUTH_PASSWORD }} --name portfolio-api baaarbz/portfolio-api:latest --restart always
+            docker run -d --rm -p 8000:8000 -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -e AUTH_USR=${{ secrets.AUTH_USERNAME }} -e AUTH_PWD=${{ secrets.AUTH_PASSWORD }} --restart always --name portfolio-api baaarbz/portfolio-api:latest
