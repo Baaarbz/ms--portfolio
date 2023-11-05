@@ -8,4 +8,10 @@ EXPOSE 8000
 
 ENV SPRING_PROFILES_ACTIVE=pro
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar",
+    "-Dspring.datasource.username=${DB_USERNAME}",
+    "-Dspring.datasource.password=${DB_PASSWORD}",
+    "-Dcom.barbzdev.auth.usr=${AUTH_USR}",
+    "-Dcom.barbzdev.auth.pwd=${AUTH_PWD}",
+"app.jar"
+]
