@@ -109,11 +109,6 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          build-args: |
-            DB_USERNAME=${{ secrets.DB_USERNAME }}
-            DB_PASSWORD=${{ secrets.DB_PASSWORD }}
-            AUTH_USR=${{ secrets.AUTH_USERNAME }}
-            AUTH_PWD=${{ secrets.AUTH_PASSWORD }}
           tags: baaarbz/portfolio-api:latest
 
   deploy:
@@ -136,4 +131,4 @@ jobs:
           script: |
             docker rmi baaarbz/portfolio-api
             docker pull baaarbz/portfolio-api:latest
-            docker run -d --network=bridge --rm -p 8000:8000 --name portfolio-api baaarbz/portfolio-api:latest
+            docker run -d --rm -p 8000:8000 -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -e AUTH_USR=${{ secrets.AUTH_USERNAME }} -e AUTH_PWD=${{ secrets.AUTH_PASSWORD }} --name portfolio-api baaarbz/portfolio-api:latest
