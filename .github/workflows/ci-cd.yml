@@ -134,5 +134,6 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            docker rmi baaarbz/portfolio-api
             docker pull baaarbz/portfolio-api:latest
-            docker run -d --rm -p 8000:8000 --name portfolio-api baaarbz/portfolio-api:latest
+            docker run -d --network=bridge --rm -p 8000:8000 --name portfolio-api baaarbz/portfolio-api:latest
