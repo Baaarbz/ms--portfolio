@@ -69,7 +69,7 @@ jobs:
 
   build:
     if: ${{ github.ref == 'refs/heads/main' }}
-    name: Build and push to Docker Hub 🐋
+    name: Docker 🐋
     runs-on: ubuntu-latest
     needs:
       - acceptance-test
@@ -109,7 +109,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          args: |
+          build-args: |
             DB_USERNAME=${{ secrets.DB_USERNAME }}
             DB_PASSWORD=${{ secrets.DB_PASSWORD }}
             AUTH_USR=${{ secrets.AUTH_USERNAME }}
