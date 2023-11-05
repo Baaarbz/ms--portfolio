@@ -5,6 +5,9 @@ spring:
     password: {{db_password}}
     driver-class-name: org.postgresql.Driver
 
+server:
+  forward-headers-strategy: framework
+
 logging:
   level:
     com.barbzdev: info
