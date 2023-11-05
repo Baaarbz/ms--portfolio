@@ -141,4 +141,4 @@ jobs:
           script: |
             docker pull baaarbz/portfolio-api:latest
             docker stop portfolio-api
-            docker run -d --rm -p 8000:8000 --name portfolio-ap baaarbz/portfolio-api:latest
+            docker run -d --rm -p 8000:8000 --name portfolio-api baaarbz/portfolio-api:latest
