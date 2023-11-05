@@ -5,6 +5,8 @@ spring:
     password: {{db_password}}
     driver-class-name: org.postgresql.Driver
 
+# Configuration for nginx "proxy_set_header X-Forwarded-Prefix '/portfolio';"
+# In order to fix 404 request of swagger when tries to retrieve /v3/api-docs
 server:
   forward-headers-strategy: framework
 
