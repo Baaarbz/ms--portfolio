@@ -140,3 +140,5 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             docker pull baaarbz/portfolio-api:latest
+            docker stop portfolio-api
+            docker run -d --rm -p 8000:8000 --name portfolio-ap baaarbz/portfolio-api:latest
