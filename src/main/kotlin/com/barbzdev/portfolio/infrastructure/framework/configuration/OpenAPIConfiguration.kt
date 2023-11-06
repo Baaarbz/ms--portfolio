@@ -26,7 +26,7 @@ class OpenAPIConfiguration {
       )
       .addServersItem(
         Server()
-          .url("https://barbzdev.com/")
+          .url("https://barbzdev.com/portfolio/")
       )
   }
 }
