@@ -66,6 +66,25 @@ jobs:
 
       - name: Run acceptance test
         run: ./gradlew clean acceptanceTest --stacktrace --no-configuration-cache
+  architecture-test:
+    name: Architecture test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'adopt'
+
+      - name: Grant execute permissions to gradlew
+        run: chmod +x ./gradlew
+
+      - name: Run acceptance test
+        run: ./gradlew clean architectureTest --stacktrace --no-configuration-cache
 
   build:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -75,6 +94,7 @@ jobs:
       - acceptance-test
       - integration-test
       - unit-test
+      - architecture-test
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
