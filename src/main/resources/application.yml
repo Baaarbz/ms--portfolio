@@ -1,2 +1,11 @@
 server:
   port: 8000
+
+springdoc:
+  show-actuator: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: openapi, swagger-ui
