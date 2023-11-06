@@ -1,6 +1,7 @@
 package com.barbzdev.portfolio
 
 import com.barbzdev.portfolio.infrastructure.framework.PortfolioApplication
+import com.tngtech.archunit.junit.AnalyzeClasses
 import io.mockk.junit5.MockKExtension
 import java.io.File
 import org.flywaydb.core.Flyway
@@ -60,3 +61,6 @@ abstract class AcceptanceTest : ConfigurationTestEnvironment()
 
 @Tag("IntegrationTest")
 abstract class IntegrationTest : ConfigurationTestEnvironment()
+
+@Tag("ArchitectureTest")
+abstract class ArchitectureTest
