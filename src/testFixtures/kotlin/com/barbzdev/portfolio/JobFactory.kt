@@ -1,11 +1,11 @@
 package com.barbzdev.portfolio
 
+import com.barbzdev.portfolio.application.HttpPostNewJobRequest
+import com.barbzdev.portfolio.application.JobDataRequest
 import com.barbzdev.portfolio.domain.common.Month
 import com.barbzdev.portfolio.domain.common.Year
 import com.barbzdev.portfolio.domain.job.Job
 import com.barbzdev.portfolio.domain.job.JobData
-import com.barbzdev.portfolio.infrastructure.framework.controller.HttpPostNewJobRequest
-import com.barbzdev.portfolio.infrastructure.framework.controller.JobDataRequest
 import com.github.javafaker.Faker
 import java.util.UUID
 
@@ -42,6 +42,12 @@ object JobFactory {
           positionEndMonth = null,
           positionEndYear = null,
         )
+      ),
+      links = listOf(
+        JobData.Link(
+          name = JobData.LinkName(fakerJob.keySkills()),
+          url = JobData.LinkURL("https://www.barbzdev.com")
+        )
       )
     )
   }
@@ -74,6 +80,12 @@ object JobFactory {
           positionStartYear = "2001",
           positionEndMonth = null,
           positionEndYear = null,
+        )
+      ),
+      links = listOf(
+        JobDataRequest.LinkRequest(
+          name = fakerJob.keySkills(),
+          url = "https://www.barbzdev.com"
         )
       )
     )

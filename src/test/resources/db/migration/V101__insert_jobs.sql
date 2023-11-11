@@ -14,7 +14,7 @@ VALUES ('7cd9a4dc-ff61-48da-af2c-c839d6572b3a',
               "positionEndMonth": null,
               "positionEndYear": null
             }
-          ]
+          ],
         }',
         true,
         '10',
@@ -39,6 +39,12 @@ VALUES ('86c144f4-0e1d-408b-b274-106ef8939b4b',
               "positionStartYear": "2022",
               "positionEndMonth": "10",
               "positionEndYear": "2022"
+            }
+          ],
+          "links": [
+            {
+                "name": "Adidas wallet",
+                "url": "https://adidas.com/wallet"
             }
           ]
         }',

@@ -1,9 +1,9 @@
 package com.barbzdev.portfolio.infrastructure.controller
 
 import com.barbzdev.portfolio.AcceptanceTest
+import com.barbzdev.portfolio.application.HttpPostNewJobRequest
 import com.barbzdev.portfolio.domain.job.Job
 import com.barbzdev.portfolio.domain.job.JobRepository
-import com.barbzdev.portfolio.infrastructure.framework.controller.HttpPostNewJobRequest
 import com.google.gson.GsonBuilder
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
@@ -170,6 +170,12 @@ private const val GET_JOBS_RESPONSE = """
                "positionStartYear":"2022",
                "positionEndMonth":"10",
                "positionEndYear":"2022"
+            }
+         ],
+         "links": [
+            {
+              "name": "Adidas wallet",
+              "url": "https://adidas.com/wallet"
             }
          ]
       }
