@@ -148,7 +148,8 @@ private const val GET_JOBS_RESPONSE = """
                "positionEndMonth":null,
                "positionEndYear":null
             }
-         ]
+         ],
+         "links":null
       }
    },
    {
@@ -172,10 +173,10 @@ private const val GET_JOBS_RESPONSE = """
                "positionEndYear":"2022"
             }
          ],
-         "links": [
+         "links":[
             {
-              "name": "Adidas wallet",
-              "url": "https://adidas.com/wallet"
+               "name":"Adidas wallet",
+               "url":"https://adidas.com/wallet"
             }
          ]
       }
