@@ -3,10 +3,29 @@ package com.barbzdev.portfolio.domain.job
 import com.barbzdev.portfolio.domain.common.Month
 import com.barbzdev.portfolio.domain.common.Year
 import com.barbzdev.portfolio.domain.job.exception.InvalidJobDatesException
+import java.net.URI
 
 data class JobData(
   val positions: List<Position>,
+  val links: List<Link>?
 ) {
+  data class Link(
+    val name: LinkName,
+    val url: LinkURL
+  )
+
+  data class LinkName(val value: String) {
+    init {
+      require(value.isNotBlank())
+    }
+  }
+
+  data class LinkURL(val value: String) {
+    init {
+      URI.create(value)
+    }
+  }
+
   data class Position(
     val position: PositionName,
     val description: Description,
