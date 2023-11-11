@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test
 const val DOMAIN_PACKAGE = "com.barbzdev.portfolio.domain.."
 const val APPLICATION_PACKAGE = "com.barbzdev.portfolio.application.."
 const val CONTROLLER_PACKAGE = "com.barbzdev.portfolio.infrastructure.framework.controller.."
+const val CONFIGURATION_PACKAGE = "com.barbzdev.portfolio.infrastructure.framework.configuration.."
 const val JAVA_PACKAGE = "java.."
 const val KOTLIN_PACKAGE = "kotlin.."
 const val KOTLINX_PACKAGE = "kotlinx.."
@@ -26,11 +27,14 @@ class ArchitectureShould : ArchitectureTest() {
 
   var ignoreTests = ImportOption { location ->
     !location.contains("/test/")
+    !location.contains("/testFixtures/")
   }
 
   @Test
   fun `domain layer not depends of third party dependencies`() {
-    val importedClasses = ClassFileImporter().importPackages("com.barbzdev.portfolio")
+    val importedClasses = ClassFileImporter()
+      .withImportOption(ignoreTests)
+      .importPackages("com.barbzdev.portfolio")
 
     val rule: ArchRule = classes()
       .that()
@@ -46,14 +50,16 @@ class ArchitectureShould : ArchitectureTest() {
   @Test
   @Disabled
   fun `application layer only be accessed by controllers`() {
-    val importedClasses = ClassFileImporter().importPackages("com.barbzdev.portfolio")
+    val importedClasses = ClassFileImporter()
+      .withImportOption(ignoreTests)
+      .importPackages("com.barbzdev.portfolio")
 
     val rule: ArchRule = classes()
       .that()
       .resideInAPackage(APPLICATION_PACKAGE)
       .should()
       .onlyBeAccessed()
-      .byAnyPackage(CONTROLLER_PACKAGE)
+      .byAnyPackage(CONTROLLER_PACKAGE, CONFIGURATION_PACKAGE)
       .because("Application layer should be only accessible by controllers")
 
     rule.check(importedClasses)
@@ -83,7 +89,9 @@ class ArchitectureShould : ArchitectureTest() {
 
   @Test
   fun `domain layer not access to application layer`() {
-    val importedClasses = ClassFileImporter().importPackages("com.barbzdev.portfolio")
+    val importedClasses = ClassFileImporter()
+      .withImportOption(ignoreTests)
+      .importPackages("com.barbzdev.portfolio")
 
     val rule: ArchRule = noClasses()
       .that()
