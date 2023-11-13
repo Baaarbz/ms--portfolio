@@ -89,7 +89,7 @@ object JobFactory {
           url = "https://www.barbzdev.com"
         )
       ),
-      tags = listOf(fakerJob.keySkills())
+      tags = listOf(fakerJob.keySkills()),
     )
   }
 }
