@@ -7,12 +7,19 @@ import java.net.URI
 
 data class JobData(
   val positions: List<Position>,
-  val links: List<Link>?
+  val links: List<Link>?,
+  val tags: List<Tag>
 ) {
   data class Link(
     val name: LinkName,
     val url: LinkURL
   )
+
+  data class Tag(val value: String) {
+    init {
+      require(value.isNotBlank())
+    }
+  }
 
   data class LinkName(val value: String) {
     init {

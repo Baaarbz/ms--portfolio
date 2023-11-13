@@ -6,7 +6,6 @@ import com.barbzdev.portfolio.domain.job.Job
 import com.barbzdev.portfolio.domain.job.JobData
 import com.barbzdev.portfolio.domain.job.JobRepository
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.net.URI
 import java.util.UUID
 
 class CreateNewJobService(
@@ -33,7 +32,8 @@ class CreateNewJobService(
 
   private fun JobDataRequest.toDomain() = JobData(
     positions = this.positions.map { it.toDomain() },
-    links = this.links?.map { JobData.Link(name = JobData.LinkName(it.name), url = JobData.LinkURL(it.url)) }
+    links = this.links?.map { JobData.Link(name = JobData.LinkName(it.name), url = JobData.LinkURL(it.url)) },
+    tags = this.tags.map { JobData.Tag(it) }
   )
 
   private fun JobDataRequest.PositionRequest.toDomain() = JobData.Position(
@@ -62,6 +62,7 @@ data class HttpPostNewJobRequest(
 data class JobDataRequest(
   @JsonProperty("positions") val positions: List<PositionRequest>,
   @JsonProperty("links") val links: List<LinkRequest>?,
+  @JsonProperty("tags") val tags: List<String>,
 ) {
   data class PositionRequest(
     @JsonProperty("position") val position: String,
