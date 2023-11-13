@@ -21,6 +21,8 @@ class JDBCJobRepositoryShould : IntegrationTest() {
     assertEquals("86c144f4-0e1d-408b-b274-106ef8939b4b", jobsFound[1].id.value)
     assertEquals(1, jobsFound[0].jobData.positions.size)
     assertEquals(1, jobsFound[1].jobData.positions.size)
+    assertEquals(2, jobsFound[0].jobData.tags.size)
+    assertEquals(1, jobsFound[1].jobData.links!!.size)
   }
 
   @Test

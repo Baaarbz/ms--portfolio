@@ -98,6 +98,11 @@ class JobControllerShould : AcceptanceTest() {
     assertEquals(requestJob.jobData.positions[0].positionStartYear, savedJob.jobData.positions[0].positionStartYear.value)
     assertEquals(requestJob.jobData.positions[0].positionEndMonth, savedJob.jobData.positions[0].positionEndMonth!!.value)
     assertEquals(requestJob.jobData.positions[0].positionEndYear, savedJob.jobData.positions[0].positionEndYear!!.value)
+
+    assertEquals(requestJob.jobData.links!![0].name, savedJob.jobData.links!![0].name.value)
+    assertEquals(requestJob.jobData.links!![0].url, savedJob.jobData.links!![0].url.value)
+    assertEquals(requestJob.jobData.tags[0], savedJob.jobData.tags[0].value)
+    assertEquals(requestJob.jobData.tags[1], savedJob.jobData.tags[1].value)
   }
 
   @Test
@@ -149,7 +154,11 @@ private const val GET_JOBS_RESPONSE = """
                "positionEndYear":null
             }
          ],
-         "links":null
+         "links":null,
+         "tags": [
+            "AWS",
+            "Kotlin"
+         ]
       }
    },
    {
@@ -178,6 +187,10 @@ private const val GET_JOBS_RESPONSE = """
                "name":"Adidas wallet",
                "url":"https://adidas.com/wallet"
             }
+         ],
+         "tags": [
+            "AWS",
+            "Java"
          ]
       }
    }
@@ -205,6 +218,16 @@ private const val CREATE_JOB_REQUEST = """
              "positionEndMonth":"03",
              "positionEndYear":"2023"
           }
+       ],
+       "links": [
+          {
+            "name": "Adidas wallet",
+            "url": "https://adidas.com/wallet"
+          }
+       ],
+       "tags": [
+          "Java",
+          "Spring Boot"
        ]
     }
  }

@@ -14,6 +14,10 @@ VALUES ('7cd9a4dc-ff61-48da-af2c-c839d6572b3a',
               "positionEndMonth": null,
               "positionEndYear": null
             }
+          ],
+          "tags": [
+            "AWS",
+            "Java"
           ]
         }',
         true,
@@ -46,6 +50,10 @@ VALUES ('86c144f4-0e1d-408b-b274-106ef8939b4b',
                 "name": "Adidas wallet",
                 "url": "https://adidas.com/wallet"
             }
+          ],
+          "tags": [
+            "AWS",
+            "Kotlin"
           ]
         }',
         false,

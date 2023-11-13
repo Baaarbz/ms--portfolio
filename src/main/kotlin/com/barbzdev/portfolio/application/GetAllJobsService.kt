@@ -27,7 +27,8 @@ class GetAllJobsService(
 
   private fun JobData.toHttpGetAllResponse() = JobDataResponse(
     positions = this.positions.map { it.toHttpGetAllResponse() },
-    links = this.links?.map { JobDataResponse.LinkResponse(it.name.value, it.url.value) }
+    links = this.links?.map { JobDataResponse.LinkResponse(it.name.value, it.url.value) },
+    tags = this.tags.map { it.value }
   )
 
   private fun JobData.Position.toHttpGetAllResponse() = JobDataResponse.PositionResponse(
@@ -56,6 +57,7 @@ data class HttpGetJobsResponse(
 data class JobDataResponse(
   @JsonProperty("positions") val positions: List<PositionResponse>,
   @JsonProperty("links") val links: List<LinkResponse>?,
+  @JsonProperty("tags") val tags: List<String>?,
 ) {
   data class PositionResponse(
     @JsonProperty("position") val position: String,

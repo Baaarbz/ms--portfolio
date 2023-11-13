@@ -48,7 +48,8 @@ object JobFactory {
           name = JobData.LinkName(fakerJob.keySkills()),
           url = JobData.LinkURL("https://www.barbzdev.com")
         )
-      )
+      ),
+      tags = listOf(JobData.Tag(fakerJob.keySkills()))
     )
   }
 
@@ -87,7 +88,8 @@ object JobFactory {
           name = fakerJob.keySkills(),
           url = "https://www.barbzdev.com"
         )
-      )
+      ),
+      tags = listOf(fakerJob.keySkills())
     )
   }
 }
