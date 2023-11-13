@@ -157,7 +157,7 @@ private const val GET_JOBS_RESPONSE = """
          "links":null,
          "tags": [
             "AWS",
-            "Kotlin"
+            "Java"
          ]
       }
    },
@@ -190,7 +190,7 @@ private const val GET_JOBS_RESPONSE = """
          ],
          "tags": [
             "AWS",
-            "Java"
+            "Kotlin"
          ]
       }
    }
