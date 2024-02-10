@@ -1,4 +1,6 @@
-package com.barbzdev.portfolio.domain.job
+package com.barbzdev.portfolio.domain.repository
+
+import com.barbzdev.portfolio.domain.Job
 
 interface JobRepository {
   fun findAll(): List<Job>

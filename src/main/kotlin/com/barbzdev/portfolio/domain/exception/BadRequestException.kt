@@ -1,3 +1,3 @@
-package com.barbzdev.portfolio.domain.common.exception
+package com.barbzdev.portfolio.domain.exception
 
 abstract class BadRequestException(override val message: String) : RuntimeException()
