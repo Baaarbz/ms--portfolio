@@ -1,6 +1,5 @@
 package com.barbzdev.portfolio.domain
 
-import com.barbzdev.portfolio.domain.AuditableDate.Companion.now
 import com.barbzdev.portfolio.domain.AuditableDate.Companion.of
 import com.barbzdev.portfolio.domain.exception.InvalidDateException
 
@@ -34,7 +33,7 @@ data class Job(
       startDate = JobStartDate(of(startDate)),
       endDate = endDate?.let { JobEndDate(of(endDate)) },
       jobData = jobData,
-      updatedAt = JobUpdatedAt(now())
+      updatedAt = JobUpdatedAt(AuditableDateTime.now())
     )
 
   }
