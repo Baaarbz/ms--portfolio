@@ -1,20 +1,29 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id 'org.springframework.boot' version '3.1.5'
-  id 'io.spring.dependency-management' version '1.1.3'
-  id 'org.jetbrains.kotlin.jvm' version '1.9.20'
-  id 'org.jetbrains.kotlin.plugin.spring' version '1.9.20'
+  val kotlinVersion = "1.9.22"
+  kotlin("jvm") version kotlinVersion
+  kotlin("plugin.spring") version kotlinVersion
+  kotlin("plugin.jpa") version kotlinVersion
+
+  id("org.springframework.boot") version "3.1.5"
+  id("io.spring.dependency-management") version "1.1.4"
+
+  `java-test-fixtures`
 }
 
-apply plugin: 'java-library'
-apply plugin: 'java-test-fixtures'
+group = "com.barbzdev"
+version = "1.0.0"
 
-group = 'com.barbzdev'
-version = '0.0.1-SNAPSHOT'
 
 java {
-  sourceCompatibility = '17'
+  sourceCompatibility = JavaVersion.VERSION_17
+}
+
+configurations {
+  compileOnly {
+    extendsFrom(configurations.annotationProcessor.get())
+  }
 }
 
 repositories {
@@ -22,93 +31,87 @@ repositories {
 }
 
 dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter-actuator'
-  implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
-  implementation 'org.springframework.boot:spring-boot-starter-security'
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-  implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
-  implementation 'org.flywaydb:flyway-core'
-  implementation 'org.jetbrains.kotlin:kotlin-reflect'
-  implementation 'com.google.code.gson:gson:2.10.1'
-  implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+  implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-actuator")
+  implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+  implementation("org.springframework.boot:spring-boot-starter-security")
 
-  developmentOnly 'org.springframework.boot:spring-boot-devtools'
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+  implementation("com.google.code.gson:gson:2.10.1")
+  implementation("org.flywaydb:flyway-core")
+  implementation("org.jetbrains.kotlin:kotlin-reflect")
+  implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
-  runtimeOnly 'org.postgresql:postgresql'
+  developmentOnly("org.springframework.boot:spring-boot-devtools")
+  developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-  testImplementation 'org.springframework.security:spring-security-test'
-  testImplementation 'org.testcontainers:junit-jupiter'
-  testImplementation 'org.testcontainers:postgresql'
-  testImplementation 'io.rest-assured:rest-assured:5.3.2'
-  testImplementation 'io.mockk:mockk:1.13.8'
-  testImplementation 'org.skyscreamer:jsonassert:1.5.1'
-  testImplementation 'com.tngtech.archunit:archunit-junit5:1.2.0'
+  runtimeOnly("org.postgresql:postgresql")
 
-  testFixturesImplementation 'com.github.javafaker:javafaker:1.0.2'
+  annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+  testFixturesImplementation("com.github.javafaker:javafaker:1.0.2")
 }
 
-tasks.withType(KotlinCompile) {
+tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs += "-Xjsr305=strict"
     jvmTarget = "17"
   }
 }
 
-tasks.register('integrationTest', Test) {
-  description = "Runs integration tests."
-  group = "verification"
-}
+testing {
+  suites {
+    val test by getting(JvmTestSuite::class) {
+      useJUnitJupiter()
 
-tasks.register('acceptanceTest', Test) {
-  description = "Runs acceptance tests."
-  group = "verification"
-}
+      dependencies {
+        implementation("com.willowtreeapps.assertk:assertk:0.28.0")
+        implementation("com.tngtech.archunit:archunit-junit5:1.2.0")
+        implementation("io.mockk:mockk:1.13.9")
+      }
+    }
 
-tasks.register('architectureTest', Test) {
-  description = "Runs architecture tests."
-  group = "verification"
-}
+    withType(JvmTestSuite::class).matching { it.name in listOf("integrationTest", "acceptanceTest") }.configureEach {
+      useJUnitJupiter()
+      dependencies {
+        implementation(project())
+        implementation("com.willowtreeapps.assertk:assertk:0.28.0")
+        implementation("org.testcontainers:postgresql")
+        implementation("org.springframework.boot:spring-boot-testcontainers")
+        implementation("org.springframework.boot:spring-boot-starter-test")
+        implementation("org.flywaydb:flyway-core")
+        implementation(testFixtures(project()))
+      }
+    }
 
-tasks.test {
-  useJUnitPlatform {
-    excludeTags("IntegrationTest")
-    excludeTags("AcceptanceTest")
-    excludeTags("ArchitectureTest")
-    includeTags("UnitTest")
+    val integrationTest by registering(JvmTestSuite::class) {
+      targets {
+        all {
+          testTask.configure {
+            shouldRunAfter(test)
+          }
+        }
+      }
+    }
+
+    val acceptanceTest by registering(JvmTestSuite::class) {
+      dependencies {
+        implementation("org.springframework:spring-web:6.0.15")
+        implementation("io.rest-assured:rest-assured:5.4.0")
+        implementation("org.skyscreamer:jsonassert:1.5.1")
+      }
+
+      targets {
+        all {
+          testTask.configure {
+            shouldRunAfter(integrationTest)
+          }
+        }
+      }
+    }
   }
 }
 
-tasks.acceptanceTest {
-  useJUnitPlatform {
-    excludeTags("IntegrationTest")
-    includeTags("AcceptanceTest")
-    excludeTags("ArchitectureTest")
-    excludeTags("UnitTest")
-  }
-}
-
-tasks.integrationTest {
-  useJUnitPlatform {
-    includeTags("IntegrationTest")
-    excludeTags("AcceptanceTest")
-    excludeTags("ArchitectureTest")
-    excludeTags("UnitTest")
-  }
-}
-
-tasks.architectureTest {
-  useJUnitPlatform()
-  useJUnitPlatform {
-    excludeTags("IntegrationTest")
-    excludeTags("AcceptanceTest")
-    includeTags("ArchitectureTest")
-    excludeTags("UnitTest")
-  }
-}
-
-tasks.check {
-  dependsOn integrationTest
-  dependsOn acceptanceTest
+tasks.named("check") {
+  dependsOn(testing.suites.named("integrationTest"), testing.suites.named("acceptanceTest"))
 }
