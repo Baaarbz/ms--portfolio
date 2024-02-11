@@ -1,10 +1,12 @@
 package com.barbzdev.portfolio.infrastructure.framework.controller
 
+import com.barbzdev.portfolio.application.CreateNewJobRequest
 import com.barbzdev.portfolio.application.CreateNewJobService
 import com.barbzdev.portfolio.application.GetAllJobsService
-import com.barbzdev.portfolio.application.HttpGetJobsResponse
-import com.barbzdev.portfolio.application.HttpPostNewJobRequest
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.barbzdev.portfolio.application.GetJobsResponse
+import com.barbzdev.portfolio.application.JobDataRequest
+import com.barbzdev.portfolio.application.LinkRequest
+import com.barbzdev.portfolio.application.RoleRequest
 import java.net.URI
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -24,25 +26,66 @@ class JobController(
 ) {
 
   @GetMapping
-  fun getJobs(): ResponseEntity<List<HttpGetJobsResponse>> {
-    return ResponseEntity.ok(getAllJobsService.execute())
+  fun getJobs(): ResponseEntity<List<GetJobsResponse>> {
+    return ResponseEntity.ok(getAllJobsService())
   }
 
   @PostMapping
-  fun addJob(@RequestBody jobRequest: HttpPostNewJobRequest): ResponseEntity<Unit> {
-    val jobId = createNewJobService.execute(jobRequest)
-    return ResponseEntity.created(URI("/api/v1/jobs/${jobId}")).build();
+  fun addJob(@RequestBody request: HttpCreateJobRequest): ResponseEntity<Unit> {
+    val jobId = createNewJobService(request.toCreateNewJobRequest())
+    return ResponseEntity.created(URI("/api/v1/jobs/${jobId.id}")).build();
   }
 
   @PutMapping("{id}")
-  fun updateJob(@PathVariable id: String): ResponseEntity<List<HttpGetJobsResponse>> {
+  fun updateJob(@PathVariable id: String): ResponseEntity<List<GetJobsResponse>> {
     //TODO not implemented yet
     return ResponseEntity.internalServerError().build()
   }
 
   @DeleteMapping("{id}")
-  fun deleteJob(@PathVariable id: String): ResponseEntity<List<HttpGetJobsResponse>> {
+  fun deleteJob(@PathVariable id: String): ResponseEntity<List<GetJobsResponse>> {
     //TODO not implemented yet
     return ResponseEntity.internalServerError().build()
   }
+
+  private fun HttpCreateJobRequest.toCreateNewJobRequest(): CreateNewJobRequest {
+    val links = jobData.links?.map { LinkRequest(it.name, it.url) }
+    val roles = jobData.roles.map { RoleRequest(it.role, it.description, it.startDate, it.endDate) }
+    val jobDataRequest = JobDataRequest(roles, links, jobData.tags)
+
+    return CreateNewJobRequest(
+      companyName,
+      companyUrl,
+      startDate,
+      endDate,
+      jobDataRequest
+    )
+  }
 }
+
+
+data class HttpCreateJobRequest(
+  val companyName: String,
+  val companyUrl: String,
+  val startDate: String,
+  val endDate: String?,
+  val jobData: HttpJobDataRequest,
+)
+
+data class HttpJobDataRequest(
+  val roles: List<HttpRoleRequest>,
+  val links: List<HttpLinkRequest>?,
+  val tags: List<String>,
+)
+
+data class HttpRoleRequest(
+  val role: String,
+  val description: String,
+  val startDate: String,
+  val endDate: String?
+)
+
+data class HttpLinkRequest(
+  val name: String,
+  val url: String,
+)
