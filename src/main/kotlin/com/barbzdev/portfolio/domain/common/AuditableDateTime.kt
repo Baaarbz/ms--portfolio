@@ -1,4 +1,4 @@
-package com.barbzdev.portfolio.domain
+package com.barbzdev.portfolio.domain.common
 
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
