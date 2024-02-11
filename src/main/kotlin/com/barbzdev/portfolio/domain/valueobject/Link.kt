@@ -1,4 +1,4 @@
-package com.barbzdev.portfolio.domain
+package com.barbzdev.portfolio.domain.valueobject
 
 import java.net.URI
 

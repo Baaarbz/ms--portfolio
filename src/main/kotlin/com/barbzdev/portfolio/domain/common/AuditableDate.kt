@@ -1,4 +1,4 @@
-package com.barbzdev.portfolio.domain
+package com.barbzdev.portfolio.domain.common
 
 import com.barbzdev.portfolio.domain.exception.InvalidDateException
 import java.time.LocalDate
@@ -6,6 +6,9 @@ import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
 class AuditableDate private constructor(private val date: String) {
+
+  fun getDate(): String = date
+
   companion object {
 
     private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")

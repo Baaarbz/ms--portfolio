@@ -1,4 +1,4 @@
-package com.barbzdev.portfolio.domain
+package com.barbzdev.portfolio.domain.valueobject
 
 
 data class CompanyName(val value: String) {

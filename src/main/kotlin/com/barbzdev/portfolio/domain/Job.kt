@@ -1,7 +1,14 @@
 package com.barbzdev.portfolio.domain
 
-import com.barbzdev.portfolio.domain.AuditableDate.Companion.of
+import com.barbzdev.portfolio.domain.common.AuditableDate.Companion.of
+import com.barbzdev.portfolio.domain.common.AuditableDateTime
 import com.barbzdev.portfolio.domain.exception.InvalidDateException
+import com.barbzdev.portfolio.domain.valueobject.CompanyName
+import com.barbzdev.portfolio.domain.valueobject.CompanyUrl
+import com.barbzdev.portfolio.domain.valueobject.Id
+import com.barbzdev.portfolio.domain.valueobject.JobEndDate
+import com.barbzdev.portfolio.domain.valueobject.JobStartDate
+import com.barbzdev.portfolio.domain.valueobject.JobUpdatedAt
 
 data class Job(
   val id: Id,

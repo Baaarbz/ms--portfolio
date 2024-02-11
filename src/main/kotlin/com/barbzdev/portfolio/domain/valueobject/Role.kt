@@ -1,6 +1,6 @@
-package com.barbzdev.portfolio.domain
+package com.barbzdev.portfolio.domain.valueobject
 
-import com.barbzdev.portfolio.domain.AuditableDate.Companion.of
+import com.barbzdev.portfolio.domain.common.AuditableDate.Companion.of
 import com.barbzdev.portfolio.domain.exception.InvalidDateException
 
 data class Role(
