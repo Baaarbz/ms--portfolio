@@ -1,81 +1,74 @@
 package com.barbzdev.portfolio.application
 
-import com.barbzdev.portfolio.domain.common.Month
-import com.barbzdev.portfolio.domain.common.Year
-import com.barbzdev.portfolio.domain.job.Job
-import com.barbzdev.portfolio.domain.job.JobData
-import com.barbzdev.portfolio.domain.job.JobRepository
-import com.fasterxml.jackson.annotation.JsonProperty
-import java.util.UUID
+import com.barbzdev.portfolio.domain.Job
+import com.barbzdev.portfolio.domain.JobData
+import com.barbzdev.portfolio.domain.common.AuditableDate.Companion.of
+import com.barbzdev.portfolio.domain.repository.JobRepository
+import com.barbzdev.portfolio.domain.valueobject.Link
+import com.barbzdev.portfolio.domain.valueobject.Role
+import com.barbzdev.portfolio.domain.valueobject.RoleDescription
+import com.barbzdev.portfolio.domain.valueobject.RoleEndDate
+import com.barbzdev.portfolio.domain.valueobject.RoleName
+import com.barbzdev.portfolio.domain.valueobject.RoleStartDate
+import com.barbzdev.portfolio.domain.valueobject.Tag
 
 class CreateNewJobService(
-  private val jobs: JobRepository
+  private val jobRepository: JobRepository
 ) {
 
-  fun execute(newJobRequest: HttpPostNewJobRequest): String {
-    val domainJob = newJobRequest.toDomain()
-    jobs.save(domainJob)
-    return domainJob.id.value
+  operator fun invoke(request: CreateNewJobRequest) = request
+    .toDomain()
+    .save()
+    .getResponse()
+
+  private fun Job.save(): Job {
+    jobRepository.save(this)
+    return this
   }
 
-  private fun HttpPostNewJobRequest.toDomain() = Job(
-    id = Job.Id(UUID.randomUUID().toString()),
-    companyName = Job.CompanyName(this.companyName),
-    companyURL = Job.CompanyURL(this.companyURL),
-    isCurrentCompany = this.isCurrentCompany,
-    companyStartMonth = Month(this.companyStartMonth),
-    companyStartYear = Year(this.companyStartYear),
-    companyEndMonth = this.companyEndMonth?.let { Month(it) },
-    companyEndYear = this.companyEndYear?.let { Year(it) },
-    jobData = this.jobData.toDomain()
-  )
+  private fun Job.getResponse() = CreateNewJobResponse(id.value)
 
-  private fun JobDataRequest.toDomain() = JobData(
-    positions = this.positions.map { it.toDomain() },
-    links = this.links?.map { JobData.Link(name = JobData.LinkName(it.name), url = JobData.LinkURL(it.url)) },
-    tags = this.tags.map { JobData.Tag(it) }
-  )
+  private fun CreateNewJobRequest.toDomain(): Job {
+    val links = jobData.links?.map { Link(it.name, it.url) }
+    val roles = jobData.roles.map { roleRequest ->
+      Role(
+        RoleName(roleRequest.role),
+        RoleDescription(roleRequest.description),
+        RoleStartDate(of(roleRequest.startDate)),
+        roleRequest.endDate?.let { RoleEndDate(of(it)) }
+      )
+    }
+    val tags = jobData.tags.map { Tag(it) }
+    val jobDataDomain = JobData(roles, links, tags)
 
-  private fun JobDataRequest.PositionRequest.toDomain() = JobData.Position(
-    position = JobData.PositionName(this.position),
-    description = JobData.Description(this.description),
-    isCurrentPosition = this.isCurrentPosition,
-    positionStartMonth = Month(this.positionStartMonth),
-    positionStartYear = Year(this.positionStartYear),
-    positionEndMonth = this.positionEndMonth?.let { Month(it) },
-    positionEndYear = this.positionEndYear?.let { Year(it) },
-  )
+    return Job.create(companyName, companyUrl, startDate, endDate, jobDataDomain)
+  }
 }
 
+data class CreateNewJobResponse(val id: String)
 
-data class HttpPostNewJobRequest(
-  @JsonProperty("companyName") val companyName: String,
-  @JsonProperty("companyURL") val companyURL: String,
-  @JsonProperty("isCurrentCompany") val isCurrentCompany: Boolean,
-  @JsonProperty("companyStartMonth") val companyStartMonth: String,
-  @JsonProperty("companyStartYear") val companyStartYear: String,
-  @JsonProperty("companyEndMonth") val companyEndMonth: String?,
-  @JsonProperty("companyEndYear") val companyEndYear: String?,
-  @JsonProperty("jobData") val jobData: JobDataRequest,
+data class CreateNewJobRequest(
+  val companyName: String,
+  val companyUrl: String,
+  val startDate: String,
+  val endDate: String?,
+  val jobData: JobDataRequest,
 )
 
 data class JobDataRequest(
-  @JsonProperty("positions") val positions: List<PositionRequest>,
-  @JsonProperty("links") val links: List<LinkRequest>?,
-  @JsonProperty("tags") val tags: List<String>,
-) {
-  data class PositionRequest(
-    @JsonProperty("position") val position: String,
-    @JsonProperty("description") val description: String,
-    @JsonProperty("isCurrentPosition") val isCurrentPosition: Boolean,
-    @JsonProperty("positionStartMonth") val positionStartMonth: String,
-    @JsonProperty("positionStartYear") val positionStartYear: String,
-    @JsonProperty("positionEndMonth") val positionEndMonth: String?,
-    @JsonProperty("positionEndYear") val positionEndYear: String?,
-  )
+  val roles: List<RoleRequest>,
+  val links: List<LinkRequest>?,
+  val tags: List<String>,
+)
 
-  data class LinkRequest(
-    @JsonProperty("name") val name: String,
-    @JsonProperty("url") val url: String,
-  )
-}
+data class RoleRequest(
+  val role: String,
+  val description: String,
+  val startDate: String,
+  val endDate: String?
+)
+
+data class LinkRequest(
+  val name: String,
+  val url: String,
+)
