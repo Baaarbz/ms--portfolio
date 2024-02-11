@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
-class AuditableDate private constructor(val date: String) {
+class AuditableDate private constructor(private val date: String) {
   companion object {
 
     private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
@@ -22,6 +22,6 @@ class AuditableDate private constructor(val date: String) {
     fun now(): AuditableDate = AuditableDate(LocalDate.now().format(formatter))
   }
 
-  fun toLocalDate(): LocalDate = LocalDate.parse(date, formatter);
+  fun toLocalDate(): LocalDate = LocalDate.parse(date, formatter)
 
 }
