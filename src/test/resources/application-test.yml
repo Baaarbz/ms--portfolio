@@ -1,19 +1,4 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/portfolio
-    username: local
-    password: local
-    driver-class-name: org.postgresql.Driver
-  flyway:
-    clean-disabled: false
-
 logging:
   level:
     com.barbzdev: debug
     web: debug
-
-com:
-  barbzdev:
-    auth:
-      usr: test
-      pwd: 1234

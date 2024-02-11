@@ -4,9 +4,11 @@ spring:
     username: local
     password: local
     driver-class-name: org.postgresql.Driver
+  flyway:
+    clean-disabled: false
 
 com:
   barbzdev:
     auth:
-      usr: local
-      pwd: local
+      usr: test
+      pwd: 1234

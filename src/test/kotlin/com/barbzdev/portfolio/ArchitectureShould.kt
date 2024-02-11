@@ -23,7 +23,7 @@ const val LOGGER_PACKAGE = "org.slf4j.."
 
 
 @AnalyzeClasses(packages = ["com.barbzdev.portfolio"], importOptions = [DoNotIncludeTests::class])
-class ArchitectureShould : ArchitectureTest() {
+class ArchitectureShould {
 
   var ignoreTests = ImportOption { location ->
     !location.contains("/test/")
