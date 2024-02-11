@@ -1,12 +1,27 @@
 package com.barbzdev.portfolio
 
-import com.barbzdev.portfolio.application.HttpPostNewJobRequest
+import com.barbzdev.portfolio.application.CreateNewJobRequest
 import com.barbzdev.portfolio.application.JobDataRequest
-import com.barbzdev.portfolio.domain.common.Month
-import com.barbzdev.portfolio.domain.common.Year
-import com.barbzdev.portfolio.domain.job.Job
-import com.barbzdev.portfolio.domain.job.JobData
+import com.barbzdev.portfolio.application.LinkRequest
+import com.barbzdev.portfolio.application.RoleRequest
+import com.barbzdev.portfolio.domain.Job
+import com.barbzdev.portfolio.domain.JobData
+import com.barbzdev.portfolio.domain.common.AuditableDate
+import com.barbzdev.portfolio.domain.common.AuditableDateTime
+import com.barbzdev.portfolio.domain.valueobject.CompanyName
+import com.barbzdev.portfolio.domain.valueobject.CompanyUrl
+import com.barbzdev.portfolio.domain.valueobject.Id
+import com.barbzdev.portfolio.domain.valueobject.JobStartDate
+import com.barbzdev.portfolio.domain.valueobject.JobUpdatedAt
+import com.barbzdev.portfolio.domain.valueobject.Link
+import com.barbzdev.portfolio.domain.valueobject.Role
+import com.barbzdev.portfolio.domain.valueobject.RoleDescription
+import com.barbzdev.portfolio.domain.valueobject.RoleName
+import com.barbzdev.portfolio.domain.valueobject.RoleStartDate
+import com.barbzdev.portfolio.domain.valueobject.Tag
 import com.github.javafaker.Faker
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.UUID
 
 object JobFactory {
@@ -16,15 +31,21 @@ object JobFactory {
     val fakerCompany = faker.company();
 
     return Job(
-      id = Job.Id(UUID.randomUUID().toString()),
-      companyName = Job.CompanyName(fakerCompany.name()),
-      companyURL = Job.CompanyURL(fakerCompany.url()),
-      companyStartMonth = Month("06"),
-      companyStartYear = Year("2022"),
-      companyEndMonth = null,
-      companyEndYear = null,
-      isCurrentCompany = true,
-      jobData = aJobData()
+      id = Id(UUID.randomUUID().toString()),
+      companyName = CompanyName(fakerCompany.name()),
+      companyUrl = CompanyUrl(fakerCompany.url()),
+      startDate = JobStartDate(
+        AuditableDate.of(
+          LocalDate.of(
+            faker.number().numberBetween(1990, 2023),
+            faker.number().numberBetween(1, 12),
+            faker.number().numberBetween(1, 28),
+          ).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+        )
+      ),
+      endDate = null,
+      jobData = aJobData(),
+      updatedAt = JobUpdatedAt(AuditableDateTime.now())
     )
   }
 
@@ -32,38 +53,40 @@ object JobFactory {
     val fakerJob = faker.job()
 
     return JobData(
-      positions = listOf(
-        JobData.Position(
-          position = JobData.PositionName(fakerJob.title()),
-          description = JobData.Description(fakerJob.position()),
-          isCurrentPosition = true,
-          positionStartMonth = Month("06"),
-          positionStartYear = Year("2022"),
-          positionEndMonth = null,
-          positionEndYear = null,
+      roles = listOf(
+        Role(
+          name = RoleName(fakerJob.title()),
+          description = RoleDescription(fakerJob.position()),
+          startDate = RoleStartDate(
+            AuditableDate.of(
+              LocalDate.of(
+                faker.number().numberBetween(1990, 2023),
+                faker.number().numberBetween(1, 12),
+                faker.number().numberBetween(1, 28),
+              ).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+            )
+          ),
+          endDate = null,
         )
       ),
       links = listOf(
-        JobData.Link(
-          name = JobData.LinkName(fakerJob.keySkills()),
-          url = JobData.LinkURL("https://www.barbzdev.com")
+        Link(
+          name = fakerJob.keySkills(),
+          url = "https://www.barbzdev.com"
         )
       ),
-      tags = listOf(JobData.Tag(fakerJob.keySkills()))
+      tags = listOf(Tag(fakerJob.keySkills()))
     )
   }
 
-  fun aJobCreateRequest(): HttpPostNewJobRequest {
+  fun aJobCreateRequest(): CreateNewJobRequest {
     val fakerCompany = faker.company();
 
-    return HttpPostNewJobRequest(
+    return CreateNewJobRequest(
       companyName = fakerCompany.name(),
-      companyURL = fakerCompany.url(),
-      companyStartMonth = "06",
-      companyStartYear = "2001",
-      companyEndMonth = null,
-      companyEndYear = null,
-      isCurrentCompany = true,
+      companyUrl = fakerCompany.url(), startDate =
+      "${faker.number().numberBetween(1, 28)}-${faker.number().numberBetween(1, 12)}-${faker.number().numberBetween(1990, 2023)}",
+      endDate = null,
       jobData = aJobDataCreateRequest()
     )
   }
@@ -72,19 +95,18 @@ object JobFactory {
     val fakerJob = faker.job()
 
     return JobDataRequest(
-      positions = listOf(
-        JobDataRequest.PositionRequest(
-          position = fakerJob.title(),
+      roles = listOf(
+        RoleRequest(
+          role = fakerJob.title(),
           description = fakerJob.position(),
-          isCurrentPosition = true,
-          positionStartMonth = "06",
-          positionStartYear = "2001",
-          positionEndMonth = null,
-          positionEndYear = null,
+          startDate = "${faker.number().numberBetween(1, 28)}-${faker.number().numberBetween(1, 12)}-${
+            faker.number().numberBetween(1990, 2023)
+          }",
+          endDate = null,
         )
       ),
       links = listOf(
-        JobDataRequest.LinkRequest(
+        LinkRequest(
           name = fakerJob.keySkills(),
           url = "https://www.barbzdev.com"
         )
