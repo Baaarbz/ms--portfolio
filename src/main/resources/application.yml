@@ -4,6 +4,10 @@ server:
 springdoc:
   show-actuator: true
 
+spring:
+  flyway:
+    baselineOnMigrate: true
+
 management:
   endpoints:
     web:
