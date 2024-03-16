@@ -16,12 +16,6 @@ import com.barbzdev.portfolio.domain.valueobject.JobEndDate
 import com.barbzdev.portfolio.domain.valueobject.JobStartDate
 import com.barbzdev.portfolio.domain.valueobject.JobUpdatedAt
 import com.barbzdev.portfolio.domain.valueobject.Link
-import com.barbzdev.portfolio.domain.valueobject.Role
-import com.barbzdev.portfolio.domain.valueobject.RoleDescription
-import com.barbzdev.portfolio.domain.valueobject.RoleEndDate
-import com.barbzdev.portfolio.domain.valueobject.RoleName
-import com.barbzdev.portfolio.domain.valueobject.RoleStartDate
-import com.barbzdev.portfolio.domain.valueobject.Tag
 import com.barbzdev.portfolio.domain.repository.JobRepository
 import io.mockk.Runs
 import io.mockk.every

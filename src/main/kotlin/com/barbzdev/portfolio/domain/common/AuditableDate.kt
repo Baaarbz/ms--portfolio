@@ -22,6 +22,15 @@ class AuditableDate private constructor(private val date: String) {
       }
     }
 
+    fun of(value: LocalDate): AuditableDate {
+      try {
+        val formatDate = value.format(formatter)
+        return AuditableDate(formatDate)
+      } catch (exception: DateTimeParseException) {
+        throw InvalidDateException("cannot parse date::$value message::${exception.message}")
+      }
+    }
+
     fun now(): AuditableDate = AuditableDate(LocalDate.now().format(formatter))
   }
 

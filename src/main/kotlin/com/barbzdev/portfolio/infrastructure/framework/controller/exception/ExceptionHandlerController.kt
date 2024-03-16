@@ -1,6 +1,6 @@
 package com.barbzdev.portfolio.infrastructure.framework.controller.exception
 
-import com.barbzdev.portfolio.domain.common.exception.BadRequestException
+import com.barbzdev.portfolio.domain.exception.BadRequestException
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice

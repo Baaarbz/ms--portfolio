@@ -1,6 +1,6 @@
 package com.barbzdev.portfolio.usecase
 
-import com.barbzdev.AcceptanceTest
+import com.barbzdev.portfolio.infrastructure.AcceptanceTest
 import io.restassured.RestAssured
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus
