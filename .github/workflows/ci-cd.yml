@@ -89,7 +89,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build
-        run: ./gradlew build --exclude-task acceptanceTest --exclude-task integrationTest --exclude-task test --exclude-task architectureTest
+        run: ./gradlew build --exclude-task acceptanceTest --exclude-task integrationTest --exclude-task test
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
