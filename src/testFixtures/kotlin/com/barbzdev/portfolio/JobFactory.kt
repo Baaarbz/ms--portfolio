@@ -69,7 +69,7 @@ object JobFactory {
       description = fakerCompany.bs(),
       role = fakerCompany.profession(),
       companyUrl = fakerCompany.url(), startDate =
-      "${faker.number().numberBetween(1, 28)}-${faker.number().numberBetween(1, 12)}-${faker.number().numberBetween(1990, 2023)}",
+      "28-01-2023",
       endDate = null,
       jobData = aJobDataCreateRequest()
     )
