@@ -6,7 +6,6 @@ import com.barbzdev.portfolio.application.GetAllJobsService
 import com.barbzdev.portfolio.application.GetJobsResponse
 import com.barbzdev.portfolio.application.JobDataRequest
 import com.barbzdev.portfolio.application.LinkRequest
-import com.barbzdev.portfolio.application.RoleRequest
 import java.net.URI
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -26,8 +25,8 @@ class JobController(
 ) {
 
   @GetMapping
-  fun getJobs(): ResponseEntity<List<GetJobsResponse>> {
-    return ResponseEntity.ok(getAllJobsService())
+  fun getJobs(): ResponseEntity<List<HttpGetAllJobsResponse>> {
+    return ResponseEntity.ok(getAllJobsService().map { it.toHttpGetAllJobsResponse() })
   }
 
   @PostMapping
@@ -50,11 +49,12 @@ class JobController(
 
   private fun HttpCreateJobRequest.toCreateNewJobRequest(): CreateNewJobRequest {
     val links = jobData.links?.map { LinkRequest(it.name, it.url) }
-    val roles = jobData.roles.map { RoleRequest(it.role, it.description, it.startDate, it.endDate) }
-    val jobDataRequest = JobDataRequest(roles, links, jobData.tags)
+    val jobDataRequest = JobDataRequest(links, jobData.tags)
 
     return CreateNewJobRequest(
       companyName,
+      description,
+      role,
       companyUrl,
       startDate,
       endDate,
@@ -63,29 +63,61 @@ class JobController(
   }
 }
 
-
 data class HttpCreateJobRequest(
   val companyName: String,
   val companyUrl: String,
+  val description: String,
+  val role: String,
   val startDate: String,
   val endDate: String?,
   val jobData: HttpJobDataRequest,
 )
 
 data class HttpJobDataRequest(
-  val roles: List<HttpRoleRequest>,
   val links: List<HttpLinkRequest>?,
   val tags: List<String>,
-)
-
-data class HttpRoleRequest(
-  val role: String,
-  val description: String,
-  val startDate: String,
-  val endDate: String?
 )
 
 data class HttpLinkRequest(
   val name: String,
   val url: String,
 )
+
+data class HttpGetAllJobsResponse(
+  val id: String,
+  val companyName: String,
+  val role: String,
+  val description: String,
+  val companyUrl: String,
+  val startDate: String,
+  val endDate: String?,
+  val jobData: HttpJobDataResponse,
+  val isCurrentCompany: Boolean,
+)
+
+data class HttpJobDataResponse(
+  val links: List<HttpLinkResponse>?,
+  val tags: List<String>?
+)
+
+data class HttpLinkResponse(
+  val name: String,
+  val url: String
+)
+
+fun GetJobsResponse.toHttpGetAllJobsResponse(): HttpGetAllJobsResponse {
+  val links = jobData.links?.map { HttpLinkResponse(it.name, it.url) }
+  val jobDataResponse = HttpJobDataResponse(links, jobData.tags)
+
+  return HttpGetAllJobsResponse(
+    id,
+    companyName,
+    role,
+    description,
+    companyUrl,
+    startDate,
+    endDate,
+    jobDataResponse,
+    endDate == null
+  )
+}

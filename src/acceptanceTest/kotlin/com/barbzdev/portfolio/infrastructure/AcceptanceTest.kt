@@ -1,4 +1,4 @@
-package com.barbzdev
+package com.barbzdev.portfolio.infrastructure
 
 import com.barbzdev.portfolio.infrastructure.framework.PortfolioApplication
 import java.io.File
@@ -6,22 +6,27 @@ import org.flywaydb.core.Flyway
 import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.web.server.LocalServerPort
 import org.springframework.test.context.ActiveProfiles
 import org.testcontainers.containers.DockerComposeContainer
 import org.testcontainers.containers.wait.strategy.Wait
 
-@ActiveProfiles("integration-test")
+
+@ActiveProfiles("acceptance-test")
 @SpringBootTest(
   classes = [PortfolioApplication::class],
-  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
+  webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
 )
-abstract class IntegrationTest {
+abstract class AcceptanceTest {
+
+  @LocalServerPort
+  lateinit var port: String
 
   @Autowired
   private lateinit var flyway: Flyway
 
   @BeforeEach
-  fun beforeEach() {
+  fun setUp() {
     flyway.clean()
     flyway.migrate()
   }
@@ -38,3 +43,4 @@ abstract class IntegrationTest {
     }
   }
 }
+

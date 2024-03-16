@@ -18,20 +18,14 @@ class GetAllJobsService(
 
   private fun List<Job>.toResponse(): List<GetJobsResponse> =
     this.map { job ->
-      val tags = job.jobData.tags.map { it.value }
+      val tags = job.jobData.tags.map { it }
       val links = job.jobData.links?.map { LinkResponse(it.name, it.url) }
-      val roles = job.jobData.roles.map {
-        RoleResponse(
-          it.name.value,
-          it.description.value,
-          it.startDate.value.getDate(),
-          it.endDate?.value?.getDate()
-        )
-      }
-      val jobDataResponse = JobDataResponse(roles, links, tags)
+      val jobDataResponse = JobDataResponse(links, tags)
       GetJobsResponse(
         job.id.value,
         job.companyName.value,
+        job.role.value,
+        job.description.value,
         job.companyUrl.value,
         job.startDate.value.getDate(),
         job.endDate?.value?.getDate(),
@@ -43,6 +37,8 @@ class GetAllJobsService(
 data class GetJobsResponse(
   val id: String,
   val companyName: String,
+  val role: String,
+  val description: String,
   val companyUrl: String,
   val startDate: String,
   val endDate: String?,
@@ -50,16 +46,8 @@ data class GetJobsResponse(
 )
 
 data class JobDataResponse(
-  val roles: List<RoleResponse>,
   val links: List<LinkResponse>?,
   val tags: List<String>?,
-)
-
-data class RoleResponse(
-  val name: String,
-  val description: String,
-  val startDate: String,
-  val endDate: String?,
 )
 
 data class LinkResponse(
