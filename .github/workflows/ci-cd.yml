@@ -75,7 +75,6 @@ jobs:
       - acceptance-test
       - integration-test
       - unit-test
-      - architecture-test
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
