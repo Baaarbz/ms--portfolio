@@ -96,7 +96,7 @@ testing {
 
     val acceptanceTest by registering(JvmTestSuite::class) {
       dependencies {
-        implementation("org.springframework:spring-web:6.0.15")
+        implementation("org.springframework:spring-web:6.1.9")
         implementation("io.rest-assured:rest-assured:5.4.0")
         implementation("org.skyscreamer:jsonassert:1.5.1")
       }
