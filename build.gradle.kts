@@ -66,7 +66,7 @@ testing {
 
       dependencies {
         implementation("com.willowtreeapps.assertk:assertk:0.28.0")
-        implementation("com.tngtech.archunit:archunit-junit5:1.2.1")
+        implementation("com.tngtech.archunit:archunit-junit5:1.3.0")
         implementation("io.mockk:mockk:1.13.9")
       }
     }
